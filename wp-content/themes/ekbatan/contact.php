@@ -1,3 +1,8 @@
+<?php 
+wp_reset_query();
+wp_reset_postdata();
+ ?>
+
 </ul>
 	</section>
 	<div class="line"></div>
@@ -32,12 +37,26 @@
 				<h1 class="contactus">ارتباط با ما...</h1>
 				<div class="contact">
 					بهترین راه برای رسیدن به من از طریق ایمیل است. لطفا در صورت تمایل با من تماس بگیرید در هر زمان برای نمایش داده های مربوط به کار هر. شما همیشه استقبال :)
-					<form>
+					<br/>
+					<?php 
+					$args = array( 'post_type' => 'page', 'numberposts' => -1); 
+						$pages = get_posts( $args );
+						if ($pages) {
+							foreach ( $pages as $post ) {
+								setup_postdata($post);
+								the_title();
+								the_content();
+								// the_attachment_link($post->ID, false);
+								// the_excerpt();
+							}
+						}
+					 ?>
+					<!-- <form>
 						<input type="text" class="name" id="name" />
 						<input type="text" class="email" id="email" />
 						<textarea class="textarea" id="texterea" placeholder="پیغام"></textarea>
 						<input type="image" name="btnimg" id="btnimg" src="images/button_sendme.png" />
-					</form>
+					</form> -->
 				</div>
 			</div>
 		</div>
