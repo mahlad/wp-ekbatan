@@ -1,3 +1,4 @@
+
 <?php 
 /*
 Plugin Name: mahlad-ContactPlugin 
@@ -47,7 +48,7 @@ function user_contact_form($atts, $content = null){
 			<input class="email"type="text" name="usr_email" value="" />
 		
 			<label for="usr_content"></label></td>
-			<textarea class="textarea"name="usr_content"></textarea>
+			<textarea class="textarea"name="usr_content"></textarea><br />
 			<input type="submit" name="usr_submit" value="ارسال">
 		
 		</form>
