@@ -8,10 +8,7 @@ if($term_slug=='kanoon')
 else 
 	$post_id=73;
  ?>
-
-<table style="color:#fff; font-size:18px">
-
- <?php
+<?php
  $args = array( 
  	'post_type' => 'coments',
  	'include'         =>$post_id ,
@@ -31,27 +28,10 @@ else
 			$arg=array('post_id' => $post_id);
 			$comments = get_comments($arg);
 			$coun=0;
-				foreach($comments as $comment) :
-					echo '<tr>';
-						echo '<th>نام نویسنده :</th>';
-						echo'<td>'.($comment->comment_author).'<td/>';
-					echo '</tr>';
-					echo '<tr>';
-						echo '<th>تاریخ:</th>';
-						echo '<td>'.($comment->comment_date).'<td/>';
-					echo '</tr>';
-					echo '<tr class="brd-bottom">';
-						echo '<th>متن:</th>';
-						echo '<td>'.($comment->comment_content).'<td/>';
-					echo '</tr>';
-					//comment_form($post_id);
-					$coun++;
-				endforeach;
-		}
-		//echo $coun;
-		?>
-		<!-- <section class="form-idea"> -->
-		<form action="" method="post" id="commentform">
+			the_content();
+?>
+
+	<form action="" method="post" id="commentform">
 			<table>
 				<tr>
 					<td>
@@ -88,6 +68,29 @@ else
 		<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
 		
 		</form>
+<table style="color:#fff; font-size:18px">
+ <?php
+				foreach($comments as $comment) :
+					echo '<tr>';
+						echo '<th>نام نویسنده :</th>';
+						echo'<td>'.($comment->comment_author).'<td/>';
+					echo '</tr>';
+					echo '<tr>';
+						echo '<th>تاریخ:</th>';
+						echo '<td>'.($comment->comment_date).'<td/>';
+					echo '</tr>';
+					echo '<tr class="brd-bottom">';
+						echo '<th>متن:</th>';
+						echo '<td>'.($comment->comment_content).'<td/>';
+					echo '</tr>';
+					//comment_form($post_id);
+					$coun++;
+				endforeach;
+		}
+		//echo $coun;
+		?>
+		<!-- <section class="form-idea"> -->
+		
 		<!-- </section> -->
 		<?php
 		

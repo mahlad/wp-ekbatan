@@ -230,6 +230,39 @@ function create_massages_type(){
 		);
 	register_post_type('massages', $args);
 }
+/*_-_-_-_-Contact post type_-_-_-_-*/ 
+add_action('init','create_contact_type');
+function create_contact_type(){
+	$labels=array(
+		'name' => 'اطلاعات تماس',
+		'singular_name' => 'اطلاعات تماس',
+		'edit_item' => 'ویرایش اطلاعات تماس',
+		'view_item' => 'نمایش اطلاعات تماس',
+		'menu_name' => 'اطلاعات تماس'
+		);
+	$args=array(
+		'label' => 'اطلاعات تماس',
+		'labels' => $labels,
+		'description' => 'این قسمت فقط اطلاعات تماس خود را وارد نمایید',
+		'public' => true,
+		'exclude_from_search' => true,
+		'publicly_queryable' => true,
+		'show_ui' => true,
+		'show_in_nav_menus' => true,
+		'show_in_menu' => true,
+		'menu_position' => 22,
+		'capability_type' => 'page',
+		'hierarchical' => false,
+		'supports' => array('title'),
+		'rewrite' => array('slug' => 'contact'),
+		'has_archive' => true,
+		'query_var' => true,
+		'can_export' => true,
+
+		);
+	register_post_type('contact', $args);
+}
+
 /*_-_-_-_-Department taxonomy_-_-_-_-*/ 
 $labels = array(
     'name'  => 'دپارتمان',
@@ -258,7 +291,6 @@ $args=array(
 
 	);
 register_taxonomy('department', array('services','gallery','articles','coments'), $args);
-
 /*_-_-_-_-Upload metabox_-_-_-_-*/ 
 add_action('post_edit_form_tag', 'update_edit_form'); 
 add_action('load-post.php', 'metabox_setup' );
@@ -316,6 +348,59 @@ function metabox_save($post_id){
 		}
 	} 
 }
+/*_-_-_-_-Contact metabox_-_-_-_-*/ 
+// 
+add_action('add_meta_boxes','add_cnt_meta');
+add_action('save_post','save_cnt_meta');
+
+function add_cnt_meta(){
+	add_meta_box('my_meta', 'فرم ثبت اطلاعات تماس','cnt_inner_meta_box','contact','advanced','default');
+}
+function cnt_inner_meta_box($post){
+	wp_nonce_field(plugin_basename(__FILE__), 'wpnonce');
+	$post_id=$post->ID;
+	$name=get_post_meta($post_id,'fax',true);
+	$phone=get_post_meta($post_id,'phone',true);
+	$mobile=get_post_meta($post_id,'mobile',true);
+	$email=get_post_meta($post_id,'email',true);
+	$address=get_post_meta($post_id,'address',true);
+	$massage=get_post_meta($post_id,'massage',true);
+	?>
+ 	
+ 	<label for="phone_field">تلفن ثابت:</label></br><input type="text" name="phone_field" id="phone_field" value="<?php echo $phone; ?>" size="40"/></br>
+ 	<label for="mobile_field">تلفن همراه:</label></br><input type="text" name="mobile_field" id="mobile_field" value="<?php echo $mobile; ?>" size="40"/></br>
+ 	<label for="fax_field">فکس:</label></br><input type="text" name="fax_field" id="fax_field" value="<?php echo $name; ?>" size="40"/></br>
+ 	<label for="email_field">ایمیل:</label></br><input type="text" name="email_field" id="email_field" value="<?php echo $email; ?>" size="40"/></br>
+ 	<label for="address_field">آدرس:</label></br><input type="text" name="address_field" id="address_field" value="<?php echo $address; ?>" size="40"/></br>
+ 	<label for="massage_field">متن پیام:</label></br><textarea  rows="5" cols="40" name="massage_field" id="massage_field"><?php echo $massage; ?></textarea>
+	<?php
+	
+}
+function save_cnt_meta($post_id){
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+      return;
+	if('contact'==$_POST['post_type'])
+	{
+		if ( is_admin() ){
+			$name=$_POST['fax_field'];
+			$phone=$_POST['phone_field'];
+			$mobile=$_POST['mobile_field'];
+			$email=$_POST['email_field'];
+			$address=$_POST['address_field'];
+			$massage=$_POST['massage_field'];
+			update_post_meta($post_id,'fax',$name);
+			update_post_meta($post_id,'phone',$phone);
+			update_post_meta($post_id,'mobile',$mobile);
+			update_post_meta($post_id,'email',$email);
+			update_post_meta($post_id,'address',$address);
+			update_post_meta($post_id,'massage',$massage);
+		}else return;
+	}
+	else
+        return;
+}
+
+
 
 
 

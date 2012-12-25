@@ -4,7 +4,7 @@
 		</div>
 		<div class="left date">
 			<?php 
-			echo jdate('l jS F Y');
+			echo jdate('l j F Y');
 			 ?>
 		</div>
 		<div class="logo">

@@ -1,6 +1,8 @@
 <?php 
 wp_reset_query();
 wp_reset_postdata();
+$args = array( 'post_type' => 'contact', 'posts_per_page' =>1,'post_status' =>	'publish' );
+	$loop=new WP_Query($args);
  ?>
  
 
@@ -8,25 +10,34 @@ wp_reset_postdata();
 <section id="end">
 		<div class="content-end">
 			<div class="text-left">
+				<?php 
+				if($loop->have_posts()){
+					$loop->the_post();
+					$post_id=$post->ID;
+				 ?>
 				<h1 class="contactus">درباره ما</h1>
 				<div class="txt">
 					<div class="content-txt f13">
 						<table>
 							<tr>
 								<td class="tel"></td>
-								<td class="txt">7331 879 511 98+</td>
+								<td class="txt"><?php echo get_post_meta($post_id, 'phone',true);?></td>
 							</tr>
 							<tr>
 								<td class="mobile"></td>
-								<td class="txt">1157 816 915 98+</td>
+								<td class="txt"><?php echo get_post_meta($post_id, 'mobile',true); ?></td>
 							</tr>
 							<tr>
 								<td class="fax"></td>
-								<td class="txt">7331 879 511 98+</td>
+								<td class="txt"><?php echo get_post_meta($post_id, 'fax',true); ?></td>
 							</tr>
 							<tr>
 								<td class="adrs"></td>
-								<td class="txt">مشهد - بلوار پیروزی - بین پیروزی 8-6 - پلاک 116 - واحد 5</td>
+								<td class="txt"><?php echo get_post_meta($post_id, 'address',true); ?></td>
+							</tr>
+							<tr>
+								<td class="adrs"></td>
+								<td class="txt"><?php echo get_post_meta($post_id, 'email',true); ?></td>
 							</tr>
 						</table>
 					</div>
@@ -35,7 +46,7 @@ wp_reset_postdata();
 			<div class="text-right txr">
 				<h1 class="contactus">ارتباط با ما...</h1>
 				<div class="contact">
-					بهترین راه برای رسیدن به من از طریق ایمیل است. لطفا در صورت تمایل با من تماس بگیرید در هر زمان برای نمایش داده های مربوط به کار هر. شما همیشه استقبال :)
+				<?php echo get_post_meta($post_id, 'massage',true); }?>
 					<br/>
 					<?php 
 					$args = array( 'post_type' => 'page', 'numberposts' => -1); 

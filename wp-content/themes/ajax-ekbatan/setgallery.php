@@ -11,7 +11,6 @@ $loop=new Wp_Query($args);
 if($loop->have_posts()){
     while($loop->have_posts()){
     $loop->the_post();
-    the_title();
     $ar_permalink[$counter]=get_permalink($post->id);
     $ar_thumbnail[$counter]=get_the_post_thumbnail($post->id,'thumbnail');
     $counter++;
